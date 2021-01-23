@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.academyproject.R
 import com.example.academyproject.data.CourseEntity
@@ -17,7 +18,7 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
     lateinit var fragmentBookmarkBinding: FragmentBookmarkBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         fragmentBookmarkBinding = FragmentBookmarkBinding.inflate(inflater, container, false)
         return fragmentBookmarkBinding.root
@@ -27,7 +28,9 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
         super.onViewCreated(view, savedInstanceState)
 
         if (activity != null) {
-            val courses = generateDummyCourses()
+            val viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[BookmarkViewModel::class.java]
+            val courses = viewModel.getBookmarks()
+
             val adapter = BookmarkAdapter(this)
             adapter.setCourses(courses)
 
