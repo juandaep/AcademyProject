@@ -1,12 +1,11 @@
 package com.example.academyproject.ui.detail
 
 import androidx.lifecycle.ViewModel
-import com.example.academyproject.data.CourseEntity
-import com.example.academyproject.data.ModuleEntity
-import com.example.academyproject.utils.DataDummy.generateDummyCourses
-import com.example.academyproject.utils.DataDummy.generateDummyModules
+import com.example.academyproject.data.source.local.entity.CourseEntity
+import com.example.academyproject.data.source.local.entity.ModuleEntity
+import com.example.academyproject.data.source.AcademyRepository
 
-class DetailCourseViewModel : ViewModel() {
+class DetailCourseViewModel(private val academyRepository: AcademyRepository) : ViewModel() {
 
     private lateinit var courseId: String
 
@@ -14,16 +13,7 @@ class DetailCourseViewModel : ViewModel() {
         this.courseId = courseId
     }
 
-    fun getCourse(): CourseEntity {
-        lateinit var course: CourseEntity
-        val coursesEntities = generateDummyCourses()
-        for (courseEntity in coursesEntities) {
-            if (courseEntity.courseId == courseId) {
-                course = courseEntity
-            }
-        }
-        return course
-    }
+    fun getCourse(): CourseEntity = academyRepository.getCourseWithModules(courseId)
 
-    fun getModules(): List<ModuleEntity> = generateDummyModules(courseId)
+    fun getModules(): List<ModuleEntity> = academyRepository.getAllModulesByCourse(courseId)
 }

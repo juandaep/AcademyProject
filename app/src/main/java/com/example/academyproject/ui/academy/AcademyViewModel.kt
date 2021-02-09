@@ -1,10 +1,10 @@
 package com.example.academyproject.ui.academy
 
 import androidx.lifecycle.ViewModel
-import com.example.academyproject.data.CourseEntity
-import com.example.academyproject.utils.DataDummy.generateDummyCourses
+import com.example.academyproject.data.source.local.entity.CourseEntity
+import com.example.academyproject.data.source.AcademyRepository
 
-class AcademyViewModel : ViewModel() {
+class AcademyViewModel(private val academyRepository: AcademyRepository) : ViewModel() {
 
-    fun getCourses(): List<CourseEntity> = generateDummyCourses()
+    fun getCourses(): List<CourseEntity> = academyRepository.getAllCourses()
 }

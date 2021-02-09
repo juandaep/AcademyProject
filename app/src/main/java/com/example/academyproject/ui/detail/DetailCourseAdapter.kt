@@ -3,7 +3,7 @@ package com.example.academyproject.ui.detail
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.academyproject.data.ModuleEntity
+import com.example.academyproject.data.source.local.entity.ModuleEntity
 import com.example.academyproject.databinding.ItemsModuleListBinding
 import java.util.*
 

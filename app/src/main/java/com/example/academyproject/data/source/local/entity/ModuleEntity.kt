@@ -1,6 +1,6 @@
-package com.example.academyproject.data
+package com.example.academyproject.data.source.local.entity
 
-data class ModuleEntity (
+data class ModuleEntity(
     var moduleId: String,
     var courseId: String,
     var title: String,

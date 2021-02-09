@@ -10,12 +10,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.academyproject.R
-import com.example.academyproject.data.CourseEntity
+import com.example.academyproject.data.source.local.entity.CourseEntity
 import com.example.academyproject.databinding.ActivityDetailCourseBinding
 import com.example.academyproject.databinding.ContentDetailCourseBinding
+import com.example.academyproject.viewmodel.ViewModelFactory
 import com.example.academyproject.ui.reader.CourseReaderActivity
-import com.example.academyproject.utils.DataDummy.generateDummyCourses
-import com.example.academyproject.utils.DataDummy.generateDummyModules
 
 class DetailCourseActivity : AppCompatActivity() {
 
@@ -38,7 +37,8 @@ class DetailCourseActivity : AppCompatActivity() {
 
         val adapter = DetailCourseAdapter()
 
-        val viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[DetailCourseViewModel::class.java]
+        val factory = ViewModelFactory.getInstance(this)
+        val viewModel = ViewModelProvider(this, factory)[DetailCourseViewModel::class.java]
 
         val extras = intent.extras
         if (extras != null) {

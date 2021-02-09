@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.academyproject.data.ModuleEntity
+import com.example.academyproject.data.source.local.entity.ModuleEntity
 import com.example.academyproject.databinding.FragmentModuleListBinding
+import com.example.academyproject.viewmodel.ViewModelFactory
 import com.example.academyproject.ui.reader.CourseReaderActivity
 import com.example.academyproject.ui.reader.CourseReaderCallback
 import com.example.academyproject.ui.reader.CourseReaderViewModel
-import com.example.academyproject.utils.DataDummy.generateDummyModules
 
 /**
  * A simple [Fragment] subclass.
@@ -44,7 +44,8 @@ class ModuleListFragment : Fragment(), MyAdapterClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity(), ViewModelProvider.NewInstanceFactory())[CourseReaderViewModel::class.java]
+        val factory = ViewModelFactory.getInstance(requireActivity())
+        viewModel = ViewModelProvider(requireActivity(), factory)[CourseReaderViewModel::class.java]
         adapter = ModuleListAdapter(this)
         populateRecyclerView(viewModel.getModules())
     }
