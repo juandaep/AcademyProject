@@ -2,6 +2,7 @@ package com.example.academyproject.ui.detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -44,11 +45,20 @@ class DetailCourseActivity : AppCompatActivity() {
         if (extras != null) {
             val courseId = extras.getString(EXTRA_COURSE)
             if (courseId != null) {
-                viewModel.setSelectedCourse(courseId)
-                val modules = viewModel.getModules()
 
-                adapter.setModules(modules)
-                populateCourse(viewModel.getCourse() as CourseEntity)
+                activityDetailCourseBinding.progressBar.visibility = View.VISIBLE
+                activityDetailCourseBinding.content.visibility = View.INVISIBLE
+
+                viewModel.setSelectedCourse(courseId)
+                viewModel.getModules().observe(this, { modules ->
+                    activityDetailCourseBinding.progressBar.visibility = View.GONE
+                    activityDetailCourseBinding.content.visibility = View.VISIBLE
+
+                    adapter.setModules(modules)
+                    adapter.notifyDataSetChanged()
+                })
+                viewModel.getCourse().observe(this, { course -> populateCourse(course) })
+
             }
         }
 
@@ -68,11 +78,11 @@ class DetailCourseActivity : AppCompatActivity() {
         detailContentBinding.textDate.text = resources.getString(R.string.deadline_date, courseEntity.deadline)
 
         Glide.with(this)
-            .load(courseEntity.imagePath)
-            .transform(RoundedCorners(20))
-            .apply(RequestOptions.placeholderOf(R.drawable.ic_loading)
-                .error(R.drawable.ic_error))
-            .into(detailContentBinding.imagePoster)
+                .load(courseEntity.imagePath)
+                .transform(RoundedCorners(20))
+                .apply(RequestOptions.placeholderOf(R.drawable.ic_loading)
+                        .error(R.drawable.ic_error))
+                .into(detailContentBinding.imagePoster)
 
         detailContentBinding.btnStart.setOnClickListener {
             val intent = Intent(this@DetailCourseActivity, CourseReaderActivity::class.java)
